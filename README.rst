@@ -22,8 +22,9 @@ Python wrapper for Digital Ocean API V2
     client = dosa.Client(api_key=API_KEY)
     client.droplets.list()
     client.images.list()
-    client.droplets.create(name='terminator', region='nyc2', size='512mb', image='ubuntu-14-04-x32')
+    client.droplets.create(name='terminator', region='nyc2', size='512mb', \
+        image='ubuntu-14-04-x32')
 
 Credits
 -------
-Created while working `Scroll.in <http://scroll.in>`_
+Created while working on `Scroll.in <http://scroll.in>`_'s project.

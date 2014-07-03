@@ -1,9 +1,10 @@
-dosa
+DOsa
 ====
 
 Python wrapper for Digital Ocean API V2
 
 
-.. image:: http://en.wikipedia.org/wiki/Dosa#mediaviewer/File:Paper_Masala_Dosa.jpg
+.. image:: http://upload.wikimedia.org/wikipedia/commons/3/34/Paper_Masala_Dosa.jpg
+    :scale: 40 %
 
 

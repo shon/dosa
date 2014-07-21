@@ -8,7 +8,7 @@ for line in open('dosa/__init__.py'):
 setup(
     name='dosa',
     version=version,
-    url='https://github.com/shon/dosa',
+    url='http://shon.github.io/dosa',
     classifiers=[
         'Programming Language :: Python',
         'Programming Language :: Python :: 3'

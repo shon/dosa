@@ -1,10 +1,9 @@
 DOsa
 ====
 
-Python wrapper for Digital Ocean [API
-V2](https://developers.digitalocean.com).
+Python wrapper for Digital Ocean [API V2](https://developers.digitalocean.com).
 
-![image](http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Paper_Masala_Dosa.jpg/193px-Paper_Masala_Dosa.jpg%0A%20:target:%20http://www.flickr.com/photos/git/3936135033/)
+[![Dosa](http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Paper_Masala_Dosa.jpg/193px-Paper_Masala_Dosa.jpg)](http://www.flickr.com/photos/git/3936135033/)
 
 Installation
 ------------

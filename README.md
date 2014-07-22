@@ -1,21 +1,25 @@
-DOsa
-====
-
 Python wrapper for Digital Ocean [API V2](https://developers.digitalocean.com).
 
-[![Dosa](http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Paper_Masala_Dosa.jpg/193px-Paper_Masala_Dosa.jpg)](http://www.flickr.com/photos/git/3936135033/)
+[![Latest Version](https://badge.fury.io/py/dosa.svg)](http://badge.fury.io/py/dosa)
+
+[![Number of PyPI downloads](https://pypip.in/d/dosa/badge.png)](https://crate.io/packages/dosa/)
+
+-------------
+
+[!["Paper Masala Dosa" by SteveR- - http://www.flickr.com/photos/git/3936135033/. Licensed under Creative Commons Attribution 2.0 via Wikimedia Commons](http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Paper_Masala_Dosa.jpg/640px-Paper_Masala_Dosa.jpg)](http://commons.wikimedia.org/wiki/File:Paper_Masala_Dosa.jpg#mediaviewer/File:Paper_Masala_Dosa.jpg)
+
 
 Installation
 ------------
 
-~~~~ {.sourceCode .bash}
+~~~~ bash
 pip install dosa
 ~~~~
 
 Usage
 -----
 
-~~~~ {.sourceCode .python}
+~~~~ python
 import dosa
 
 API_KEY = 'Your API Key'
@@ -26,9 +30,14 @@ client = dosa.Client(api_key=API_KEY)
 # Droplets
 client.droplets.list()
 status, result = client.droplets.create(name='terminator', region='nyc2',\
-    size='512mb', image='ubuntu-14-04-x32')
+    size='512mb', image='ubuntu-14-04-x32', ssh_keys=[12345])
 new_droplet_id = result['id']
 client.droplets.delete(new_droplet_id)
+
+# SSH Keys
+pub_key = open('~/.ssh/id_rsa.pub').read()
+client.keys.create(name='RSA key', public_key=pub_key)
+client.keys.list()
 
 # Images
 client.images.list()

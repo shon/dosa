@@ -1,24 +1,26 @@
-DOsa
-====
+Python wrapper for Digital Ocean `API V2 <https://developers.digitalocean.com>`__.
 
-Python wrapper for Digital Ocean `API V2 <https://developers.digitalocean.com>`_.
+|Latest Version|
 
+|Number of PyPI downloads|
 
-.. image:: http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Paper_Masala_Dosa.jpg/193px-Paper_Masala_Dosa.jpg
-    :target: http://www.flickr.com/photos/git/3936135033/
+--------------
+
+|"Paper Masala Dosa" by SteveR- -
+http://www.flickr.com/photos/git/3936135033/. Licensed under Creative
+Commons Attribution 2.0 via Wikimedia Commons|
 
 Installation
--------------
+------------
 
-.. code-block:: bash
+.. code:: bash
 
     pip install dosa
-
 
 Usage
 -----
 
-.. code-block:: python
+.. code:: python
 
     import dosa
 
@@ -30,13 +32,26 @@ Usage
     # Droplets
     client.droplets.list()
     status, result = client.droplets.create(name='terminator', region='nyc2',\
-        size='512mb', image='ubuntu-14-04-x32')
+        size='512mb', image='ubuntu-14-04-x32', ssh_keys=[12345])
     new_droplet_id = result['id']
     client.droplets.delete(new_droplet_id)
+
+    # SSH Keys
+    pub_key = open('~/.ssh/id_rsa.pub').read()
+    client.keys.create(name='RSA key', public_key=pub_key)
+    client.keys.list()
 
     # Images
     client.images.list()
 
 Credits
 -------
-Created while working on `Scroll.in <http://scroll.in>`_'s project.
+
+Created while working on `Scroll.in <http://scroll.in>`__'s project.
+
+.. |Latest Version| image:: https://badge.fury.io/py/dosa.svg
+   :target: http://badge.fury.io/py/dosa
+.. |Number of PyPI downloads| image:: https://pypip.in/d/dosa/badge.png
+   :target: https://crate.io/packages/dosa/
+.. |"Paper Masala Dosa" by SteveR- - http://www.flickr.com/photos/git/3936135033/. Licensed under Creative Commons Attribution 2.0 via Wikimedia Commons| image:: http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Paper_Masala_Dosa.jpg/640px-Paper_Masala_Dosa.jpg
+   :target: http://commons.wikimedia.org/wiki/File:Paper_Masala_Dosa.jpg#mediaviewer/File:Paper_Masala_Dosa.jpg

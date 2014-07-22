@@ -4,38 +4,47 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Dosa by shon</title>
-
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/shon/dosa">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/shon/dosa/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/shon/dosa/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
     <div class="wrapper">
-      <header>
-        <h1 class="header">Dosa</h1>
-        <p class="header">Python wrapper for Digital Ocean API V2</p>
 
-        <ul>
-          <li class="download"><a class="buttons" href="https://github.com/shon/dosa/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/shon/dosa/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/shon/dosa">View On GitHub</a></li>
-        </ul>
-
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/shon">shon</a></p>
-
-
-      </header>
       <section>
-        <h1>
-<a name="dosa" class="anchor" href="#dosa"><span class="octicon octicon-link"></span></a>DOsa</h1>
+        <div id="title">
+          <h1>Dosa</h1>
+          <p>Python wrapper for Digital Ocean API V2</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/shon">shon</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-<p>Python wrapper for Digital Ocean <a href="https://developers.digitalocean.com">API V2</a>.</p>
+        <p>Python wrapper for Digital Ocean <a href="https://developers.digitalocean.com">API V2</a>.</p>
 
-<p><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Paper_Masala_Dosa.jpg/193px-Paper_Masala_Dosa.jpg" alt="Dosa"></p>
+<p><a href="http://badge.fury.io/py/dosa"><img src="https://badge.fury.io/py/dosa.svg" alt="Latest Version"></a></p>
+
+<p><a href="https://crate.io/packages/dosa/"><img src="https://pypip.in/d/dosa/badge.png" alt="Number of PyPI downloads"></a></p>
+
+<hr><p><a href="http://commons.wikimedia.org/wiki/File:Paper_Masala_Dosa.jpg#mediaviewer/File:Paper_Masala_Dosa.jpg"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Paper_Masala_Dosa.jpg/640px-Paper_Masala_Dosa.jpg" alt='"Paper Masala Dosa" by SteveR- - http://www.flickr.com/photos/git/3936135033/. Licensed under Creative Commons Attribution 2.0 via Wikimedia Commons'></a></p>
 
 <h2>
 <a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
@@ -46,8 +55,7 @@
 <h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<div class="highlight highlight-python"><pre>
-<span class="kn">import</span> <span class="nn">dosa</span>
+<div class="highlight highlight-python"><pre><span class="kn">import</span> <span class="nn">dosa</span>
 
 <span class="n">API_KEY</span> <span class="o">=</span> <span class="s">'Your API Key'</span>
 <span class="n">dosa</span><span class="o">.</span><span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>  <span class="c"># enables debug logs</span>
@@ -57,9 +65,14 @@
 <span class="c"># Droplets</span>
 <span class="n">client</span><span class="o">.</span><span class="n">droplets</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
 <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">droplets</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">'terminator'</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="s">'nyc2'</span><span class="p">,</span>\
-    <span class="n">size</span><span class="o">=</span><span class="s">'512mb'</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s">'ubuntu-14-04-x32'</span><span class="p">)</span>
+    <span class="n">size</span><span class="o">=</span><span class="s">'512mb'</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s">'ubuntu-14-04-x32'</span><span class="p">,</span> <span class="n">ssh_keys</span><span class="o">=</span><span class="p">[</span><span class="mi">12345</span><span class="p">])</span>
 <span class="n">new_droplet_id</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s">'id'</span><span class="p">]</span>
 <span class="n">client</span><span class="o">.</span><span class="n">droplets</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">new_droplet_id</span><span class="p">)</span>
+
+<span class="c"># SSH Keys</span>
+<span class="n">pub_key</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'~/.ssh/id_rsa.pub'</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">client</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">'RSA key'</span><span class="p">,</span> <span class="n">public_key</span><span class="o">=</span><span class="n">pub_key</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
 
 <span class="c"># Images</span>
 <span class="n">client</span><span class="o">.</span><span class="n">images</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
@@ -70,12 +83,10 @@
 
 <p>Created while working on <a href="http://scroll.in">Scroll.in</a>'s project.</p>
       </section>
-      <footer>
-        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
+
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		          <script type="text/javascript">
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>

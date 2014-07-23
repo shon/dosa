@@ -1,14 +1,9 @@
-Python wrapper for Digital Ocean `API V2 <https://developers.digitalocean.com>`__.
+Python wrapper for Digital Ocean `API
+V2 <https://developers.digitalocean.com>`__.
 
 |Latest Version|
 
 |Number of PyPI downloads|
-
---------------
-
-|"Paper Masala Dosa" by SteveR- -
-http://www.flickr.com/photos/git/3936135033/. Licensed under Creative
-Commons Attribution 2.0 via Wikimedia Commons|
 
 Installation
 ------------
@@ -25,7 +20,7 @@ Usage
     import dosa
 
     API_KEY = 'Your API Key'
-    dosa.DEBUG = True  # enables debug logs
+    dosa.set_debug()  # enables debug logs
 
     client = dosa.Client(api_key=API_KEY)
 
@@ -34,6 +29,13 @@ Usage
     status, result = client.droplets.create(name='terminator', region='nyc2',\
         size='512mb', image='ubuntu-14-04-x32', ssh_keys=[12345])
     new_droplet_id = result['id']
+
+    # Droplet
+    new_droplet = client.Droplet(new_droplet_id)
+    print(new_droplet.info())
+    ## shortcuts
+    new_droplet.status()
+    new_droplet.ip_addresses()
     client.droplets.delete(new_droplet_id)
 
     # SSH Keys
@@ -44,10 +46,20 @@ Usage
     # Images
     client.images.list()
 
+    # Extras
+    client.sync_ssh_keys(keys_dir)
+
 Credits
 -------
 
 Created while working on `Scroll.in <http://scroll.in>`__'s project.
+
+Dosa?
+-----
+
+|"Paper Masala Dosa" by SteveR- -
+http://www.flickr.com/photos/git/3936135033/. Licensed under Creative
+Commons Attribution 2.0 via Wikimedia Commons|
 
 .. |Latest Version| image:: https://badge.fury.io/py/dosa.svg
    :target: http://badge.fury.io/py/dosa

@@ -44,8 +44,6 @@
 
 <p><a href="https://crate.io/packages/dosa/"><img src="https://pypip.in/d/dosa/badge.png" alt="Number of PyPI downloads"></a></p>
 
-<hr><p><a href="http://commons.wikimedia.org/wiki/File:Paper_Masala_Dosa.jpg#mediaviewer/File:Paper_Masala_Dosa.jpg"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Paper_Masala_Dosa.jpg/640px-Paper_Masala_Dosa.jpg" alt='"Paper Masala Dosa" by SteveR- - http://www.flickr.com/photos/git/3936135033/. Licensed under Creative Commons Attribution 2.0 via Wikimedia Commons'></a></p>
-
 <h2>
 <a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
@@ -58,7 +56,7 @@
 <div class="highlight highlight-python"><pre><span class="kn">import</span> <span class="nn">dosa</span>
 
 <span class="n">API_KEY</span> <span class="o">=</span> <span class="s">'Your API Key'</span>
-<span class="n">dosa</span><span class="o">.</span><span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>  <span class="c"># enables debug logs</span>
+<span class="n">dosa</span><span class="o">.</span><span class="n">set_debug</span><span class="p">()</span>  <span class="c"># enables debug logs</span>
 
 <span class="n">client</span> <span class="o">=</span> <span class="n">dosa</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">API_KEY</span><span class="p">)</span>
 
@@ -67,6 +65,13 @@
 <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">droplets</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">'terminator'</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="s">'nyc2'</span><span class="p">,</span>\
     <span class="n">size</span><span class="o">=</span><span class="s">'512mb'</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s">'ubuntu-14-04-x32'</span><span class="p">,</span> <span class="n">ssh_keys</span><span class="o">=</span><span class="p">[</span><span class="mi">12345</span><span class="p">])</span>
 <span class="n">new_droplet_id</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s">'id'</span><span class="p">]</span>
+
+<span class="c"># Droplet</span>
+<span class="n">new_droplet</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">Droplet</span><span class="p">(</span><span class="n">new_droplet_id</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">new_droplet</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+<span class="c">## shortcuts</span>
+<span class="n">new_droplet</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
+<span class="n">new_droplet</span><span class="o">.</span><span class="n">ip_addresses</span><span class="p">()</span>
 <span class="n">client</span><span class="o">.</span><span class="n">droplets</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">new_droplet_id</span><span class="p">)</span>
 
 <span class="c"># SSH Keys</span>
@@ -76,12 +81,20 @@
 
 <span class="c"># Images</span>
 <span class="n">client</span><span class="o">.</span><span class="n">images</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+
+<span class="c"># Extras</span>
+<span class="n">client</span><span class="o">.</span><span class="n">sync_ssh_keys</span><span class="p">(</span><span class="n">keys_dir</span><span class="p">)</span>
 </pre></div>
 
 <h2>
 <a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h2>
 
 <p>Created while working on <a href="http://scroll.in">Scroll.in</a>'s project.</p>
+
+<h2>
+<a name="dosa" class="anchor" href="#dosa"><span class="octicon octicon-link"></span></a>Dosa?</h2>
+
+<p><a href="http://commons.wikimedia.org/wiki/File:Paper_Masala_Dosa.jpg#mediaviewer/File:Paper_Masala_Dosa.jpg"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Paper_Masala_Dosa.jpg/640px-Paper_Masala_Dosa.jpg" alt='"Paper Masala Dosa" by SteveR- - http://www.flickr.com/photos/git/3936135033/. Licensed under Creative Commons Attribution 2.0 via Wikimedia Commons'></a></p>
       </section>
 
     </div>

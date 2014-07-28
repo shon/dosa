@@ -47,6 +47,9 @@ Usage
     client.images.list()
 
     # Extras
+    # $ ls keys/
+    # rsa_pub1.id  rsa_pub2.key  rsa_pub3.key
+    keys_dir = 'keys'
     client.sync_ssh_keys(keys_dir)
 
 Credits

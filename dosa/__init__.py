@@ -1,10 +1,13 @@
 from collections import namedtuple
+import glob
 import json
 import logging
+import os
+from os.path import basename
 import requests
 
 API_VERSION = 'v2'
-__version__ = '0.4'
+__version__ = '0.4.1'
 DEBUG = False
 
 Return = namedtuple('Return', ('status_code', 'result'))

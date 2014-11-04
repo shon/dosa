@@ -7,7 +7,7 @@ from os.path import basename
 import requests
 
 API_VERSION = 'v2'
-__version__ = '0.4.1'
+__version__ = '0.5'
 DEBUG = False
 
 Return = namedtuple('Return', ('status_code', 'result'))
@@ -24,25 +24,27 @@ def show_debug_hints(req_type, endpoint, data, headers, resp):
     if DEBUG:
         logging.debug('http status code: %s' % resp.status_code)
         logging.debug('response body: %s' % resp.text)
-        headers_s = ''.join(' -H ' + '%s: %s' % (k, v) for (k, v) in headers.items())
+        headers_s = ''.join(' -H ' + '"%s: %s"' % (k, v) for (k, v) in headers.items())
         curl_cmd = 'curl -X %s %s -d "%s" %s' % (req_type, endpoint, json.dumps(data), headers_s)
         logging.debug(curl_cmd)
 
 
 class APIObject(object):
 
-    def __init__(self, api_key, path, **kw):
+    def __init__(self, api_key, name, path=None, **kw):
         self.api_key = api_key
+        self.name = name
+        path = path or name
         self.path = path.format(**kw)
         for (k, v) in kw.items():
             setattr(self, k, v)
 
-    def send_req(self, req_type, path, data={}):
+    def send_req(self, req_type, path, data={}, params={}):
         req_calls = {'GET': requests.get, 'POST': requests.post, 'DELETE': requests.delete}
         headers = {'authorization': 'Bearer %s' % self.api_key, 'Content-Type': 'application/json'}
         endpoint = 'https://api.digitalocean.com/%s/%s' % (API_VERSION, path)
         req_call = req_calls[req_type]
-        resp = req_call(endpoint, data=json.dumps(data), headers=headers)
+        resp = req_call(endpoint, params=params, data=json.dumps(data), headers=headers)
         status_code = resp.status_code
         failed = False
         if req_type == 'DELETE':
@@ -53,8 +55,9 @@ class APIObject(object):
             ret = resp.json()
             if status_code not in (200, 201, 202):
                 failed = True
-        if failed:
+        if failed or DEBUG:
             show_debug_hints(req_type, endpoint, data, headers, resp)
+        if failed:
             raise Exception(resp.text)
         return Return(status_code, ret)
 
@@ -67,8 +70,24 @@ class Resource(APIObject):
 
 class Collection(APIObject):
 
-    def list(self):
-        return self.send_req('GET', self.path)
+    def list(self, **params):
+        """
+        @params: per_page=10, page=4
+            per_page: number of objects to include in result
+            page: page number
+        """
+        return self.send_req('GET', self.path, params=params)
+
+    def all(self):
+        images = []
+        resp = self.list()
+        images.extend(resp.result[self.name])
+        total = resp.result['meta']['total']
+        more_no_reqs = total / len(images)
+        for i in range(more_no_reqs):
+            resp = self.list(page=(i+2))
+            images.extend(resp.result[self.name])
+        return images
 
     def create(self, **data):
         return self.send_req('POST', self.path, data)
@@ -81,7 +100,7 @@ class Collection(APIObject):
 class Droplet(Resource):
 
     def ip_addresses(self):
-        networks_v4 = self.info()[1]['droplet']['networks']['v4']
+        networks_v4 = self.info().result['droplet']['networks']['v4']
         return [net['ip_address'] for net in networks_v4]
 
     def status(self):
@@ -100,7 +119,7 @@ class Client(object):
         self.api_key = api_key
         self.droplets = Droplets(self.api_key, 'droplets')
         self.images = Collection(self.api_key, 'images')
-        self.keys = Collection(self.api_key, 'account/keys')
+        self.keys = Collection(self.api_key, 'ssh_keys', 'account/keys')
 
     def Droplet(self, id):
         return Droplet(self.api_key, 'droplets/{id}', id=id)

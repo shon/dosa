@@ -45,6 +45,7 @@ Usage
 
     # Images
     client.images.list()
+    client.images.all()
 
     # Extras
     # $ ls keys/

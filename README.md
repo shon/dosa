@@ -1,21 +1,23 @@
-Python wrapper for Digital Ocean [API V2](https://developers.digitalocean.com).
+Python wrapper for Digital Ocean [API
+V2](https://developers.digitalocean.com).
 
-[![Latest Version](https://badge.fury.io/py/dosa.svg)](http://badge.fury.io/py/dosa)
+[![Latest
+Version](https://badge.fury.io/py/dosa.svg)](http://badge.fury.io/py/dosa)
 
-[![Number of PyPI downloads](https://pypip.in/d/dosa/badge.png)](https://crate.io/packages/dosa/)
-
+[![Number of PyPI
+downloads](https://pypip.in/d/dosa/badge.png)](https://crate.io/packages/dosa/)
 
 Installation
-------------
+============
 
-~~~~ bash
+~~~~ {.sourceCode .bash}
 pip install dosa
 ~~~~
 
 Usage
------
+=====
 
-~~~~ python
+~~~~ {.sourceCode .python}
 import dosa
 
 API_KEY = 'Your API Key'
@@ -44,6 +46,7 @@ client.keys.list()
 
 # Images
 client.images.list()
+client.images.all()
 
 # Extras
 # $ ls keys/
@@ -53,12 +56,14 @@ client.sync_ssh_keys(keys_dir)
 ~~~~
 
 Credits
--------
+=======
 
 Created while working on [Scroll.in](http://scroll.in)'s project.
 
 Dosa?
------
+=====
 
-[!["Paper Masala Dosa" by SteveR- - http://www.flickr.com/photos/git/3936135033/. Licensed under Creative Commons Attribution 2.0 via Wikimedia Commons](http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Paper_Masala_Dosa.jpg/640px-Paper_Masala_Dosa.jpg)](http://commons.wikimedia.org/wiki/File:Paper_Masala_Dosa.jpg#mediaviewer/File:Paper_Masala_Dosa.jpg)
-
+[!["Paper Masala Dosa" by SteveR- -
+<http://www.flickr.com/photos/git/3936135033/>. Licensed under Creative
+Commons Attribution 2.0 via Wikimedia
+Commons](http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Paper_Masala_Dosa.jpg/640px-Paper_Masala_Dosa.jpg)](http://commons.wikimedia.org/wiki/File:Paper_Masala_Dosa.jpg#mediaviewer/File:Paper_Masala_Dosa.jpg)

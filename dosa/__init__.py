@@ -7,7 +7,7 @@ from os.path import basename
 import requests
 
 API_VERSION = 'v2'
-__version__ = '0.6.1'
+__version__ = '0.6.2'
 DEBUG = False
 
 Return = namedtuple('Return', ('status_code', 'result'))

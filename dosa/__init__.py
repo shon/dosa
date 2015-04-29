@@ -7,7 +7,7 @@ from os.path import basename
 import requests
 
 API_VERSION = 'v2'
-__version__ = '0.6'
+__version__ = '0.6.1'
 DEBUG = False
 
 Return = namedtuple('Return', ('status_code', 'result'))
@@ -140,4 +140,5 @@ class Client(object):
             self.keys.create(name=name, public_key=local_keys[name])
         for name in keynames_to_discard:
             self.keys.delete(registered_keys[name]['id'])
-        return {'new': new_key_names, 'deleted': keynames_to_discard, 'all_ids': [key['id'] for key in registered_keys.values()]}
+        final_keys = self.keys.list().result['ssh_keys']
+        return {'new': new_key_names, 'deleted': keynames_to_discard, 'all_ids': [key['id'] for key in final_keys]}

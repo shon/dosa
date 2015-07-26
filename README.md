@@ -10,14 +10,14 @@ downloads](https://pypip.in/d/dosa/badge.png)](https://crate.io/packages/dosa/)
 Installation
 ============
 
-~~~~ {.sourceCode .bash}
+``` {.sourceCode .bash}
 pip install dosa
-~~~~
+```
 
 Usage
 =====
 
-~~~~ {.sourceCode .python}
+``` {.sourceCode .python}
 import dosa
 
 API_KEY = 'Your API Key'
@@ -47,13 +47,25 @@ client.keys.list()
 # Images
 client.images.list()
 client.images.all()
+client.images.search('ubuntu', 'sgp1', show_op=True)
 
 # Extras
 # $ ls keys/
 # rsa_pub1.id  rsa_pub2.key  rsa_pub3.key
 keys_dir = 'keys'
 client.sync_ssh_keys(keys_dir)
-~~~~
+```
+
+Notes
+=====
+
+Image search:
+
+    >>> client.images.search('ubuntu', region='sgp1', show_op=True)
+
+Above code snippets searches for images containing ubuntu in description
+or slug. Since region is specified (sgp1), only images in sgp1 region
+would be considered. If no region is specified all regions are included.
 
 Credits
 =======
@@ -67,3 +79,4 @@ Dosa?
 <http://www.flickr.com/photos/git/3936135033/>. Licensed under Creative
 Commons Attribution 2.0 via Wikimedia
 Commons](http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Paper_Masala_Dosa.jpg/640px-Paper_Masala_Dosa.jpg)](http://commons.wikimedia.org/wiki/File:Paper_Masala_Dosa.jpg#mediaviewer/File:Paper_Masala_Dosa.jpg)
+

@@ -46,12 +46,24 @@ Usage
     # Images
     client.images.list()
     client.images.all()
+    client.images.search('ubuntu', 'sgp1', show_op=True)
 
     # Extras
     # $ ls keys/
     # rsa_pub1.id  rsa_pub2.key  rsa_pub3.key
     keys_dir = 'keys'
     client.sync_ssh_keys(keys_dir)
+
+Notes
+------
+
+Image search::
+
+    >>> client.images.search('ubuntu', region='sgp1', show_op=True)
+
+Above code snippets searches for images containing `ubuntu` in description or slug. Since region is specified (sgp1), only images in sgp1 region would be considered. If no region is specified all regions are included.
+
+
 
 Credits
 -------

@@ -7,7 +7,7 @@ from os.path import basename
 import requests
 
 API_VERSION = 'v2'
-__version__ = '0.6.2'
+__version__ = '0.7'
 DEBUG = False
 
 Return = namedtuple('Return', ('status_code', 'result'))
@@ -114,11 +114,39 @@ class Droplets(Collection):
         return self.send_req('POST', self.path, data)
 
 
+class Images(Collection):
+
+    def search(self, word, region=None, show_op=False):
+        """
+        @region: <string> eg sgp1, nyc1
+        @show_op: prints output
+        """
+        region = region and region.lower()
+
+        def filter_image(image):
+            distribution = image['distribution'].lower()
+            slug = image['slug'].lower()
+            if (word in distribution) or (word in slug):
+                if not region:
+                    return True
+                else:
+                    return region in image['regions']
+            return False
+
+        images = filter(filter_image, self.all())
+
+        if show_op:
+            for image in images:
+                print(image['slug'], image['id'], image['distribution'])
+            return
+        return images
+
+
 class Client(object):
     def __init__(self, api_key):
         self.api_key = api_key
         self.droplets = Droplets(self.api_key, 'droplets')
-        self.images = Collection(self.api_key, 'images')
+        self.images = Images(self.api_key, 'images')
         self.keys = Collection(self.api_key, 'ssh_keys', 'account/keys')
 
     def Droplet(self, id):

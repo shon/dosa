@@ -7,7 +7,7 @@ from os.path import basename
 import requests
 
 API_VERSION = 'v2'
-__version__ = '0.7'
+__version__ = '0.7.1'
 DEBUG = False
 
 Return = namedtuple('Return', ('status_code', 'result'))
@@ -125,7 +125,7 @@ class Images(Collection):
 
         def filter_image(image):
             distribution = image['distribution'].lower()
-            slug = image['slug'].lower()
+            slug = image['slug'] and image['slug'].lower() or ''
             if (word in distribution) or (word in slug):
                 if not region:
                     return True

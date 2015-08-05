@@ -49,6 +49,26 @@ client.images.list()
 client.images.all()
 client.images.search('ubuntu', 'sgp1', show_op=True)
 
+# Domains
+client.domains.list()
+client.domains.all()
+client.domains.create(name='example.com', ip_address='1.2.3.4')
+client.domains.delete(id='example.com')
+
+### Get specific domain
+domain = client.Domain(domain='example.com')
+domain.info()
+
+# Domain Records
+dr = client.DomainRecords(domain='example.com')
+dr.list()
+dr.create(type='A', name='example.com', data='162.10.66.0')
+
+### Get specific domain record for a domain
+record = dr.Record(record_id='7976006')
+record.info()
+record.update(name='new.example.com')
+
 # Extras
 # $ ls keys/
 # rsa_pub1.id  rsa_pub2.key  rsa_pub3.key

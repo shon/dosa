@@ -7,7 +7,7 @@ from os.path import basename
 import requests
 
 API_VERSION = 'v2'
-__version__ = '0.7.1'
+__version__ = '0.8'
 DEBUG = False
 
 Return = namedtuple('Return', ('status_code', 'result'))
@@ -40,7 +40,7 @@ class APIObject(object):
             setattr(self, k, v)
 
     def send_req(self, req_type, path, data={}, params={}):
-        req_calls = {'GET': requests.get, 'POST': requests.post, 'DELETE': requests.delete}
+        req_calls = {'GET': requests.get, 'POST': requests.post, 'DELETE': requests.delete, 'PUT': requests.put}
         headers = {'authorization': 'Bearer %s' % self.api_key, 'Content-Type': 'application/json'}
         endpoint = 'https://api.digitalocean.com/%s/%s' % (API_VERSION, path)
         req_call = req_calls[req_type]
@@ -66,6 +66,9 @@ class Resource(APIObject):
 
     def info(self):
         return self.send_req('GET', self.path)
+
+    def update(self, **data):
+        return self.send_req('PUT', self.path, data)
 
 
 class Collection(APIObject):
@@ -142,12 +145,26 @@ class Images(Collection):
         return images
 
 
+class DomainRecords(Collection):
+
+    def Record(self, record_id):
+        return Resource(self.api_key, self.path+'/{record_id}', record_id=record_id)
+
+
 class Client(object):
+
     def __init__(self, api_key):
         self.api_key = api_key
         self.droplets = Droplets(self.api_key, 'droplets')
         self.images = Images(self.api_key, 'images')
         self.keys = Collection(self.api_key, 'ssh_keys', 'account/keys')
+        self.domains = Collection(self.api_key, 'domains')
+
+    def Domain(self, domain):
+        return Resource(self.api_key, 'domains/{domain}', domain=domain)
+
+    def DomainRecords(self, domain, record_id=None):
+        return DomainRecords(self.api_key, 'domains/{domain}/records', domain=domain)
 
     def Droplet(self, id):
         return Droplet(self.api_key, 'droplets/{id}', id=id)

@@ -24,7 +24,7 @@ def show_debug_hints(req_type, endpoint, data, headers, resp):
     if DEBUG:
         logging.debug('http status code: %s' % resp.status_code)
         logging.debug('response body: %s' % resp.text)
-        headers_s = ''.join(' -H ' + '"%s: %s"' % (k, v) for (k, v) in headers.items())
+        headers_s = ''.join(' -H ' + '"%s: %s"' % (k, v) for (k, v) in list(headers.items()))
         curl_cmd = 'curl -X %s %s -d "%s" %s' % (req_type, endpoint, json.dumps(data), headers_s)
         logging.debug(curl_cmd)
 
@@ -36,7 +36,7 @@ class APIObject(object):
         self.name = name
         path = path or name
         self.path = path.format(**kw)
-        for (k, v) in kw.items():
+        for (k, v) in list(kw.items()):
             setattr(self, k, v)
 
     def send_req(self, req_type, path, data={}, params={}):
@@ -136,7 +136,7 @@ class Images(Collection):
                     return region in image['regions']
             return False
 
-        images = filter(filter_image, self.all())
+        images = list(filter(filter_image, self.all()))
 
         if show_op:
             for image in images:

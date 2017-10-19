@@ -1,0 +1,14 @@
+{
+  "domain_record": {
+    "id": 28448433,
+    "type": "A",
+    "name": "www",
+    "data": "162.10.66.0",
+    "priority": null,
+    "port": null,
+    "ttl": 1800,
+    "weight": null,
+    "flags": null,
+    "tag": null
+  }
+}

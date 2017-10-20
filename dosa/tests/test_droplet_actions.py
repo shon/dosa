@@ -11,7 +11,7 @@ api_sample_data = os.path.join(os.path.dirname(__file__), 'api_sample_data')
 class TestDosaClientDropletActions(TestCase):
     @classmethod
     def setUp(self):
-        self.api_key = "my_fake_api_key"
+        self.api_key = 'my_fake_api_key'
         self.client = dosa.Client(self.api_key)
 
     @classmethod
@@ -37,10 +37,10 @@ class TestDosaClientDropletActions(TestCase):
         expected_params = {}
         expected_data = '{}'
         url, data = mock_get.call_args
-        self.assertEqual(url[0], "{}/droplets".format(endpoint))
-        self.assertDictEqual(data["headers"], expected_headers)
-        self.assertDictEqual(data["params"], expected_params)
-        self.assertEqual(data["data"], expected_data)
+        self.assertEqual(url[0], '{}/droplets'.format(endpoint))
+        self.assertDictEqual(data['headers'], expected_headers)
+        self.assertDictEqual(data['params'], expected_params)
+        self.assertEqual(data['data'], expected_data)
 
     @patch('dosa.requests.post')
     def test_dosa_droplet_create(self, mock_post):
@@ -59,17 +59,17 @@ class TestDosaClientDropletActions(TestCase):
         }
         expected_params = {}
         expected_data = {
-            "name": "terminator",
-            "region": "nyc2",
-            "size": "512mb",
-            "image": "ubuntu-14-04-x32",
-            "ssh_keys": [12345]
+            'name': 'terminator',
+            'region': 'nyc2',
+            'size': '512mb',
+            'image': 'ubuntu-14-04-x32',
+            'ssh_keys': [12345]
         }
         url, data = mock_post.call_args
-        self.assertEqual(url[0], "{}/droplets".format(endpoint))
-        self.assertDictEqual(data["headers"], expected_headers)
-        self.assertDictEqual(data["params"], expected_params)
-        received_data = json.loads(data["data"])
+        self.assertEqual(url[0], '{}/droplets'.format(endpoint))
+        self.assertDictEqual(data['headers'], expected_headers)
+        self.assertDictEqual(data['params'], expected_params)
+        received_data = json.loads(data['data'])
         # assert that expected data was returned in sample data
         for key, value in expected_data.items():
             self.assertEqual(received_data[key], value)
@@ -79,9 +79,9 @@ class TestDosaClientDropletActions(TestCase):
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = json.loads(self._get_sample_data('droplet_by_id'))
         data_sample = json.loads(self._get_sample_data('droplet_by_id'))
-        droplet_id = data_sample["droplet"]["id"]
-        droplet_ips = [ip["ip_address"] for ip in data_sample["droplet"]["networks"]["v4"]]
-        droplet_status = data_sample["droplet"]["status"]
+        droplet_id = data_sample['droplet']['id']
+        droplet_ips = [ip['ip_address'] for ip in data_sample['droplet']['networks']['v4']]
+        droplet_status = data_sample['droplet']['status']
         droplet = self.client.Droplet(droplet_id)
         status, droplet_info = droplet.info()
         self.assertEqual(droplet_id, droplet_info['droplet']['id'])
@@ -95,10 +95,10 @@ class TestDosaClientDropletActions(TestCase):
         expected_params = {}
         expected_data = '{}'
         url, data = mock_get.call_args
-        self.assertEqual(url[0], "{}/droplets/{}".format(endpoint, droplet_id))
-        self.assertDictEqual(data["headers"], expected_headers)
-        self.assertDictEqual(data["params"], expected_params)
-        self.assertEqual(data["data"], expected_data)
+        self.assertEqual(url[0], '{}/droplets/{}'.format(endpoint, droplet_id))
+        self.assertDictEqual(data['headers'], expected_headers)
+        self.assertDictEqual(data['params'], expected_params)
+        self.assertEqual(data['data'], expected_data)
 
     @patch('dosa.requests.delete')
     def test_dosa_droplet_delete(self, mock_delete):
@@ -117,9 +117,9 @@ class TestDosaClientDropletActions(TestCase):
         expected_params = {}
 
         url, data = mock_delete.call_args
-        self.assertEqual(url[0], "{}/droplets/{}".format(endpoint, droplet_id))
-        self.assertDictEqual(data["headers"], expected_headers)
-        self.assertDictEqual(data["params"], expected_params)
+        self.assertEqual(url[0], '{}/droplets/{}'.format(endpoint, droplet_id))
+        self.assertDictEqual(data['headers'], expected_headers)
+        self.assertDictEqual(data['params'], expected_params)
 
     def _get_sample_data(self, path=''):
         return open(os.path.join(api_sample_data, '{}.json'.format(path))).read()

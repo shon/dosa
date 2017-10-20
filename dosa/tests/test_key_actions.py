@@ -11,7 +11,7 @@ api_sample_data = os.path.join(os.path.dirname(__file__), 'api_sample_data')
 class TestDosaClientKeyActions(TestCase):
     @classmethod
     def setUp(self):
-        self.api_key = "my_fake_api_key"
+        self.api_key = 'my_fake_api_key'
         self.client = dosa.Client(self.api_key)
 
     @classmethod
@@ -24,8 +24,8 @@ class TestDosaClientKeyActions(TestCase):
 
     @patch('dosa.requests.post')
     def test_dosa_key_create(self, mock_post):
-        ssh_key_name = "MyFakeSSHKey"
-        ssh_key_value = "myfakesshkey"
+        ssh_key_name = 'MyFakeSSHKey'
+        ssh_key_value = 'myfakesshkey'
         mock_post.return_value.status_code = 201
         mock_post.return_value.json.return_value = json.loads(self._get_sample_data('keys_create'))
         status, result = self.client.keys.create(name=ssh_key_name, public_key=ssh_key_value)
@@ -38,14 +38,14 @@ class TestDosaClientKeyActions(TestCase):
         }
         expected_params = {}
         expected_data = {
-            "name": ssh_key_name,
-            "public_key": ssh_key_value
+            'name': ssh_key_name,
+            'public_key': ssh_key_value
         }
         url, data = mock_post.call_args
-        self.assertEqual(url[0], "{}/account/keys".format(endpoint))
-        self.assertDictEqual(data["headers"], expected_headers)
-        self.assertDictEqual(data["params"], expected_params)
-        self.assertDictEqual(json.loads(data["data"]), expected_data)
+        self.assertEqual(url[0], '{}/account/keys'.format(endpoint))
+        self.assertDictEqual(data['headers'], expected_headers)
+        self.assertDictEqual(data['params'], expected_params)
+        self.assertDictEqual(json.loads(data['data']), expected_data)
 
     @patch('dosa.requests.get')
     def test_dosa_key_list(self, mock_get):
@@ -61,11 +61,11 @@ class TestDosaClientKeyActions(TestCase):
         expected_params = {}
         expected_data = '{}'
         url, data = mock_get.call_args
-        self.assertEqual(url[0], "{}/account/keys".format(endpoint))
-        self.assertDictEqual(data["headers"], expected_headers)
-        self.assertDictEqual(data["params"], expected_params)
-        self.assertDictEqual(data["params"], expected_params)
-        self.assertEqual(data["data"], expected_data)
+        self.assertEqual(url[0], '{}/account/keys'.format(endpoint))
+        self.assertDictEqual(data['headers'], expected_headers)
+        self.assertDictEqual(data['params'], expected_params)
+        self.assertDictEqual(data['params'], expected_params)
+        self.assertEqual(data['data'], expected_data)
 
     def _get_sample_data(self, path=''):
         return open(os.path.join(api_sample_data, '{}.json'.format(path))).read()

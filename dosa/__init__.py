@@ -1,9 +1,12 @@
-from collections import namedtuple
 import glob
 import json
 import logging
+import math
 import os
+
 from os.path import basename
+from collections import namedtuple
+
 import requests
 
 API_VERSION = 'v2'
@@ -86,7 +89,7 @@ class Collection(APIObject):
         resp = self.list()
         images.extend(resp.result[self.name])
         total = resp.result['meta']['total']
-        more_no_reqs = total / len(images)
+        more_no_reqs = math.ceil(total / len(images))
         for i in range(more_no_reqs):
             resp = self.list(page=(i+2))
             images.extend(resp.result[self.name])

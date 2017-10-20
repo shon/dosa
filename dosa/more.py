@@ -29,7 +29,7 @@ def test_ssh(host, throw=False):
     except socket.timeout:
         if throw:
             raise
-    except socket.error, e:
+    except socket.error as e:
         if throw or e.errno != 111:
             raise
     finally:

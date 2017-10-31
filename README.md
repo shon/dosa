@@ -87,6 +87,14 @@ Above code snippets searches for images containing ubuntu in description
 or slug. Since region is specified (sgp1), only images in sgp1 region
 would be considered. If no region is specified all regions are included.
 
+Tests:
+
+    >>> tox
+
+To run tests, run `tox` in the root directory of the repo. It will create
+virtual environments specified in `tox.ini`, install dependancies, and
+run pytest.
+
 Credits
 =======
 

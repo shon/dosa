@@ -85,6 +85,9 @@ params = {
  'tags': []}
 firewall = client.firewalls.create(**params)
 
+# search firewall by name
+firewall = client.firewalls.get_firewall_by_name('firewall')
+
 ## add a droplet to a firewall
 firewall.add_droplet(new_droplet_id)
 

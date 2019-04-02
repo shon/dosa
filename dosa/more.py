@@ -3,7 +3,7 @@ import socket
 from os.path import basename
 
 
-def sync_keys():
+def sync_keys(client):
     local_keys = dict((basename(path), open(path).read())
                       for path in glob.glob('keys/*'))
     registered_keys = dict((key['name'], key)

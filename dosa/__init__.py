@@ -49,19 +49,26 @@ class APIObject(object):
         req_call = req_calls[req_type]
         resp = req_call(endpoint, params=params, data=json.dumps(data), headers=headers)
         status_code = resp.status_code
+
+        # default status for request and returned values
         failed = False
-        if req_type == 'DELETE':
-            ret = None
-            if status_code not in (200, 204):
-                failed = True
-        else:
+        ret = None
+
+        # requests is failes if statos is not in this list
+        if status_code not in (200, 201, 202, 204):
+            failed = True
+
+        # If there's no response (No content), as for a DELETE method,
+        # I can't get a json object
+        if resp.text and resp.text != '':
             ret = resp.json()
-            if status_code not in (200, 201, 202):
-                failed = True
+
         if failed or DEBUG:
             show_debug_hints(req_type, endpoint, data, headers, resp)
+
         if failed:
             raise Exception(resp.text)
+
         return Return(status_code, ret)
 
 
@@ -97,7 +104,7 @@ class Collection(APIObject):
 
         # This seems easier to understand to me
         for i in range(1, more_no_reqs):
-            # how I starts from 1. Getting next page
+            # now I starts from 1. Getting next page
             resp = self.list(page=(i+1))
             images.extend(resp.result[self.name])
 

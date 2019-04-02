@@ -103,7 +103,8 @@ class TestDosaClientDropletActions(TestCase):
     @patch('dosa.requests.delete')
     def test_dosa_droplet_delete(self, mock_delete):
         mock_delete.return_value.status_code = 204
-        mock_delete.return_value.json.return_value = ''
+        # there's no response for delete droplet (No Content)
+        mock_delete.return_value.text = None
         droplet_id = 12345
         status, result = self.client.droplets.delete(droplet_id)
 

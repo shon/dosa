@@ -71,7 +71,8 @@ class TestDosaClientDomainActions(TestCase):
     @patch('dosa.requests.delete')
     def test_dosa_domain_delete(self, mock_delete):
         mock_delete.return_value.status_code = 204
-        mock_delete.return_value.json.return_value = ''
+        # there's no response for delete domain (No Content)
+        mock_delete.return_value.text = None
         domain_name = 'example.com'
         status, result = self.client.domains.delete(domain_name)
 

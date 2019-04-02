@@ -146,7 +146,7 @@ class Images(Collection):
         if show_op:
             for image in images:
                 print(image['slug'], image['id'], image['distribution'])
-            return
+
         return images
 
 

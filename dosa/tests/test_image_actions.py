@@ -58,14 +58,16 @@ class TestDosaClientDropletActions(TestCase):
 
     @patch('dosa.requests.get')
     def test_dosa_image_by_search(self, mock_get):
-        # TODO: Update library and test
-        # Currently failing due to dosa/__init__.py L159 attempting to use name 'images' from response with 'image' key
         mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = json.loads(self._get_sample_data('images_search'))
-        data_sample = json.loads(self._get_sample_data('images_search'))
-        image_slug = data_sample['image']['slug']
-        image = self.client.images.search('ubuntu')
-        status, image_info = image.info()
+        mock_get.return_value.json.return_value = json.loads(
+                self._get_sample_data('images_search'))
+        images_list = self.client.images.search('ubuntu')
+
+        # image is a list of dictionaries
+        self.assertIsInstance(images_list, list)
+        self.assertEqual(1, len(images_list))
+
+        # assert method called
         self.assertTrue(mock_get.called)
         expected_headers = {
             'Content-Type': 'application/json',
@@ -74,7 +76,8 @@ class TestDosaClientDropletActions(TestCase):
         expected_params = {}
         expected_data = '{}'
         url, data = mock_get.call_args
-        self.assertEqual(url[0], '{}/images/{}'.format(endpoint, image_id))
+
+        self.assertEqual(url[0], '{}/images'.format(endpoint))
         self.assertDictEqual(data['headers'], expected_headers)
         self.assertDictEqual(data['params'], expected_params)
         self.assertEqual(data['data'], expected_data)

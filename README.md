@@ -70,7 +70,7 @@ record.info()
 record.update(name='new.example.com')
 
 # Firewalls
-## Create and delete a firewall
+## Create a firewall
 params = {
  'inbound_rules': [{'ports': '22',
    'protocol': 'tcp',
@@ -83,11 +83,16 @@ params = {
    'ports': 'all',
    'protocol': 'tcp'}],
  'tags': []}
-client.firewalls.create(**params)
-client.firewalls.delete(id='99d5ef9c-2aa5-40ad-8507-2af7d65d099a')
+firewall = client.firewalls.create(**params)
 
+## add a droplet to a firewall
+firewall.add_droplet(new_droplet_id)
 
+## remove a droplet from a firewall
+firewall.remove_droplet(new_droplet_id)
 
+## delete a firewall
+client.firewalls.delete(id=firewall.id)
 
 # Extras
 # $ ls keys/

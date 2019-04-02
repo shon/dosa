@@ -214,6 +214,17 @@ class Firewall(Resource):
 
 
 class Firewalls(Collection):
+    # override APIObject.create and return a Firewall object
+    def create(self, **data):
+        # call base method and create a firewall
+        status, result = super().create(**data)
+
+        # get firewall_id
+        firewall_id = result['firewall']['id']
+
+        # now get a Firewall instance
+        return Firewall(self.api_key, 'firewalls/{id}', id=firewall_id)
+
     def get_firewall_by_name(self, name):
         """Return a Firewall object from a name"""
 

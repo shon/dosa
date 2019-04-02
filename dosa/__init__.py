@@ -91,10 +91,16 @@ class Collection(APIObject):
         resp = self.list()
         images.extend(resp.result[self.name])
         total = resp.result['meta']['total']
+
+        # if total == len(images), math.ceil will be == 1
         more_no_reqs = math.ceil(total / len(images))
-        for i in range(more_no_reqs):
-            resp = self.list(page=(i+2))
+
+        # This seems easier to understand to me
+        for i in range(1, more_no_reqs):
+            # how I starts from 1. Getting next page
+            resp = self.list(page=(i+1))
             images.extend(resp.result[self.name])
+
         return images
 
     def create(self, **data):

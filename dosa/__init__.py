@@ -82,6 +82,8 @@ class Collection(APIObject):
             per_page: number of objects to include in result
             page: page number
         """
+
+        # it returns a Return nametuple object
         return self.send_req('GET', self.path, params=params)
 
     def all(self):

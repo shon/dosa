@@ -42,6 +42,19 @@ class TestDosaClientDropletActions(TestCase):
         self.assertDictEqual(data['params'], expected_params)
         self.assertEqual(data['data'], expected_data)
 
+    @patch('dosa.requests.get')
+    def test_dosa_image_n_of_requests(self, mock_get):
+        """Test n of requests equal to n of pages"""
+
+        # prepare a fake request
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = json.loads(
+                self._get_sample_data('images'))
+
+        images = self.client.images.all()
+
+        self.assertEqual(len(images), 1)
+        self.assertEqual(mock_get.call_count, 1)
 
     @patch('dosa.requests.get')
     def test_dosa_image_by_search(self, mock_get):

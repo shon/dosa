@@ -68,6 +68,23 @@ Usage
     record.info()
     record.update(name='new.example.com')
 
+    # Firewalls
+    ## Create and delete a firewall
+    params = {
+     'inbound_rules': [{'ports': '22',
+       'protocol': 'tcp',
+       'sources': {'addresses': ['0.0.0.0/0', '::/0']}},
+      {'ports': '80',
+       'protocol': 'tcp',
+       'sources': {'addresses': ['0.0.0.0/0', '::/0']}}],
+     'name': 'firewall',
+     'outbound_rules': [{'destinations': {'addresses': ['0.0.0.0/0', '::/0']},
+       'ports': 'all',
+       'protocol': 'tcp'}],
+     'tags': []}
+    client.firewalls.create(**params)
+    client.firewalls.delete(id='99d5ef9c-2aa5-40ad-8507-2af7d65d099a')
+
     # Extras
     # $ ls keys/
     # rsa_pub1.id  rsa_pub2.key  rsa_pub3.key

@@ -1,0 +1,154 @@
+{
+    "firewalls": [
+        {
+            "id": "f7460df0-da83-4d0e-bf34-d61a6b8e399d",
+            "name": "base",
+            "status": "succeeded",
+            "inbound_rules": [
+                {
+                    "protocol": "icmp",
+                    "ports": "0",
+                    "sources": {
+                        "addresses": [
+                            "0.0.0.0/0",
+                            "::/0"
+                        ]
+                    }
+                },
+                {
+                    "protocol": "tcp",
+                    "ports": "22",
+                    "sources": {
+                        "addresses": [
+                            "0.0.0.0/0",
+                            "::/0"
+                        ]
+                    }
+                }
+            ],
+            "outbound_rules": [
+                {
+                    "protocol": "icmp",
+                    "ports": "0",
+                    "destinations": {
+                        "addresses": [
+                            "0.0.0.0/0",
+                            "::/0"
+                        ]
+                    }
+                },
+                {
+                    "protocol": "tcp",
+                    "ports": "0",
+                    "destinations": {
+                        "addresses": [
+                            "0.0.0.0/0",
+                            "::/0"
+                        ]
+                    }
+                },
+                {
+                    "protocol": "udp",
+                    "ports": "0",
+                    "destinations": {
+                        "addresses": [
+                            "0.0.0.0/0",
+                            "::/0"
+                        ]
+                    }
+                }
+            ],
+            "created_at": "2019-03-29T11:00:31Z",
+            "droplet_ids": [],
+            "tags": [],
+            "pending_changes": []
+        },
+        {
+            "id": "6e416d72-2c57-4ad7-bfc1-84f855dcda70",
+            "name": "webserver",
+            "status": "succeeded",
+            "inbound_rules": [
+                {
+                    "protocol": "icmp",
+                    "ports": "0",
+                    "sources": {
+                        "addresses": [
+                            "0.0.0.0/0",
+                            "::/0"
+                        ]
+                    }
+                },
+                {
+                    "protocol": "tcp",
+                    "ports": "22",
+                    "sources": {
+                        "addresses": [
+                            "0.0.0.0/0",
+                            "::/0"
+                        ]
+                    }
+                },
+                {
+                    "protocol": "tcp",
+                    "ports": "80",
+                    "sources": {
+                        "addresses": [
+                            "0.0.0.0/0",
+                            "::/0"
+                        ]
+                    }
+                },
+                {
+                    "protocol": "tcp",
+                    "ports": "443",
+                    "sources": {
+                        "addresses": [
+                            "0.0.0.0/0",
+                            "::/0"
+                        ]
+                    }
+                }
+            ],
+            "outbound_rules": [
+                {
+                    "protocol": "icmp",
+                    "ports": "0",
+                    "destinations": {
+                        "addresses": [
+                            "0.0.0.0/0",
+                            "::/0"
+                        ]
+                    }
+                },
+                {
+                    "protocol": "tcp",
+                    "ports": "0",
+                    "destinations": {
+                        "addresses": [
+                            "0.0.0.0/0",
+                            "::/0"
+                        ]
+                    }
+                },
+                {
+                    "protocol": "udp",
+                    "ports": "0",
+                    "destinations": {
+                        "addresses": [
+                            "0.0.0.0/0",
+                            "::/0"
+                        ]
+                    }
+                }
+            ],
+            "created_at": "2018-11-10T11:30:52Z",
+            "droplet_ids": [],
+            "tags": [],
+            "pending_changes": []
+        }
+    ],
+    "links": {},
+    "meta": {
+        "total": 2
+    }
+}

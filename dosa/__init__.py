@@ -169,6 +169,65 @@ class DomainRecords(Collection):
         return Resource(self.api_key, self.path+'/{record_id}', record_id=record_id)
 
 
+class Firewall(Resource):
+    def add_droplet(self, droplet_id):
+        """Add droplet to firewall"""
+
+        # first get info from firewall to determine droplets assiged to it
+        droplet_ids = self.info().result['firewall']['droplet_ids']
+
+        if droplet_id in droplet_ids:
+            logging.warning(
+                "Droplet {d} has already firewall {f}".format(
+                    d=droplet_id, f=self.id))
+            return
+
+        else:
+            # determine path
+            path = "firewalls/{id}/droplets".format(id=self.id)
+
+            # determine data
+            data = {"droplet_ids": [droplet_id]}
+
+            return self.send_req('POST', path, data)
+
+    def remove_droplet(self, droplet_id):
+        """Remove droplet from firewall"""
+
+        # first get info from firewall to determine droplets assiged to it
+        droplet_ids = self.info().result['firewall']['droplet_ids']
+
+        if droplet_id not in droplet_ids:
+            logging.warning(
+                "Droplet {d} hasn't firewall {f}".format(
+                    d=droplet_id, f=self.id))
+            return
+
+        else:
+            # determine path
+            path = "firewalls/{id}/droplets".format(id=self.id)
+
+            # determine data
+            data = {"droplet_ids": [droplet_id]}
+
+            return self.send_req('DELETE', path, data)
+
+
+class Firewalls(Collection):
+    def get_firewall_by_name(self, name):
+        """Return a Firewall object from a name"""
+
+        # search for a firewall rule by name:
+        # https://stackoverflow.com/a/29051598/4385116
+        data = list(filter(lambda d: d['name'] in [name], self.all()))
+
+        # get firewall id
+        firewall_id = data[0]['id']
+
+        # now get a Firewall instance
+        return Firewall(self.api_key, 'firewalls/{id}', id=firewall_id)
+
+
 class Client(object):
 
     def __init__(self, api_key):
@@ -177,6 +236,7 @@ class Client(object):
         self.images = Images(self.api_key, 'images')
         self.keys = Collection(self.api_key, 'ssh_keys', 'account/keys')
         self.domains = Collection(self.api_key, 'domains')
+        self.firewalls = Firewalls(self.api_key, 'firewalls')
 
     def Domain(self, domain):
         return Resource(self.api_key, 'domains/{domain}', domain=domain)

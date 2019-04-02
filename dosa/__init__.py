@@ -27,8 +27,16 @@ def show_debug_hints(req_type, endpoint, data, headers, resp):
     if DEBUG:
         logging.debug('http status code: %s' % resp.status_code)
         logging.debug('response body: %s' % resp.text)
-        headers_s = ''.join(' -H ' + '"%s: %s"' % (k, v) for (k, v) in list(headers.items()))
-        curl_cmd = 'curl -X %s %s -d "%s" %s' % (req_type, endpoint, json.dumps(data), headers_s)
+        headers_s = ''.join(
+            ' -H ' +
+            '"%s: %s"' %
+            (k,
+             v) for (
+                k,
+                v) in list(
+                headers.items()))
+        curl_cmd = 'curl -X %s %s -d "%s" %s' % (
+            req_type, endpoint, json.dumps(data), headers_s)
         logging.debug(curl_cmd)
 
 
@@ -43,11 +51,21 @@ class APIObject(object):
             setattr(self, k, v)
 
     def send_req(self, req_type, path, data={}, params={}):
-        req_calls = {'GET': requests.get, 'POST': requests.post, 'DELETE': requests.delete, 'PUT': requests.put}
-        headers = {'authorization': 'Bearer %s' % self.api_key, 'Content-Type': 'application/json'}
+        req_calls = {
+            'GET': requests.get,
+            'POST': requests.post,
+            'DELETE': requests.delete,
+            'PUT': requests.put}
+        headers = {
+            'authorization': 'Bearer %s' % self.api_key,
+            'Content-Type': 'application/json'}
         endpoint = 'https://api.digitalocean.com/%s/%s' % (API_VERSION, path)
         req_call = req_calls[req_type]
-        resp = req_call(endpoint, params=params, data=json.dumps(data), headers=headers)
+        resp = req_call(
+            endpoint,
+            params=params,
+            data=json.dumps(data),
+            headers=headers)
         status_code = resp.status_code
 
         # default status for request and returned values
@@ -105,7 +123,7 @@ class Collection(APIObject):
         # This seems easier to understand to me
         for i in range(1, more_no_reqs):
             # now I starts from 1. Getting next page
-            resp = self.list(page=(i+1))
+            resp = self.list(page=(i + 1))
             images.extend(resp.result[self.name])
 
         return images
@@ -130,8 +148,16 @@ class Droplet(Resource):
 
 class Droplets(Collection):
 
-    def create(self, name, region, size, image, ssh_keys=None, backups=False, ipv6=False, private_networking=False):
-        data = dict(name=name, region=region, size=size, image=image,  ssh_keys=ssh_keys, backups=backups, private_networking=private_networking)
+    def create(self, name, region, size, image, ssh_keys=None,
+               backups=False, ipv6=False, private_networking=False):
+        data = dict(
+            name=name,
+            region=region,
+            size=size,
+            image=image,
+            ssh_keys=ssh_keys,
+            backups=backups,
+            private_networking=private_networking)
         return self.send_req('POST', self.path, data)
 
 
@@ -166,7 +192,8 @@ class Images(Collection):
 class DomainRecords(Collection):
 
     def Record(self, record_id):
-        return Resource(self.api_key, self.path+'/{record_id}', record_id=record_id)
+        return Resource(self.api_key, self.path +
+                        '/{record_id}', record_id=record_id)
 
 
 class Firewall(Resource):
@@ -253,7 +280,8 @@ class Client(object):
         return Resource(self.api_key, 'domains/{domain}', domain=domain)
 
     def DomainRecords(self, domain, record_id=None):
-        return DomainRecords(self.api_key, 'domains/{domain}/records', domain=domain)
+        return DomainRecords(
+            self.api_key, 'domains/{domain}/records', domain=domain)
 
     def Droplet(self, id):
         return Droplet(self.api_key, 'droplets/{id}', id=id)
@@ -264,8 +292,10 @@ class Client(object):
         - uploads all keys in keysdir to digitalocean
         - removes any extra keys found at digitalocean
         """
-        local_keys = dict((basename(path), open(path).read()) for path in glob.glob(os.path.join(keysdir, '*')))
-        registered_keys = dict((key['name'], key) for key in self.keys.list().result['ssh_keys'])
+        local_keys = dict((basename(path), open(path).read())
+                          for path in glob.glob(os.path.join(keysdir, '*')))
+        registered_keys = dict((key['name'], key)
+                               for key in self.keys.list().result['ssh_keys'])
         local_key_names = set(local_keys.keys())
         registered_key_names = set(registered_keys.keys())
         new_key_names = local_key_names.difference(registered_key_names)
@@ -275,4 +305,5 @@ class Client(object):
         for name in keynames_to_discard:
             self.keys.delete(registered_keys[name]['id'])
         final_keys = self.keys.list().result['ssh_keys']
-        return {'new': new_key_names, 'deleted': keynames_to_discard, 'all_ids': [key['id'] for key in final_keys]}
+        return {'new': new_key_names, 'deleted': keynames_to_discard,
+                'all_ids': [key['id'] for key in final_keys]}

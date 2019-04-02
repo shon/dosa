@@ -8,6 +8,7 @@ import dosa
 endpoint = 'https://api.digitalocean.com/%s' % dosa.API_VERSION
 api_sample_data = os.path.join(os.path.dirname(__file__), 'api_sample_data')
 
+
 class TestDosaClientDropletActions(TestCase):
     @classmethod
     def setUp(self):
@@ -25,7 +26,8 @@ class TestDosaClientDropletActions(TestCase):
     @patch('dosa.requests.get')
     def test_dosa_image_list(self, mock_get):
         mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = json.loads(self._get_sample_data('images'))
+        mock_get.return_value.json.return_value = json.loads(
+            self._get_sample_data('images'))
         status, result = self.client.images.list()
         self.assertEqual(1, len(result['images']))
         self.assertTrue(mock_get.called)
@@ -49,7 +51,7 @@ class TestDosaClientDropletActions(TestCase):
         # prepare a fake request
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = json.loads(
-                self._get_sample_data('images'))
+            self._get_sample_data('images'))
 
         images = self.client.images.all()
 
@@ -60,7 +62,7 @@ class TestDosaClientDropletActions(TestCase):
     def test_dosa_image_by_search(self, mock_get):
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = json.loads(
-                self._get_sample_data('images_search'))
+            self._get_sample_data('images_search'))
         images_list = self.client.images.search('ubuntu')
 
         # image is a list of dictionaries
@@ -83,4 +85,5 @@ class TestDosaClientDropletActions(TestCase):
         self.assertEqual(data['data'], expected_data)
 
     def _get_sample_data(self, path=''):
-        return open(os.path.join(api_sample_data, '{}.json'.format(path))).read()
+        return open(os.path.join(api_sample_data,
+                                 '{}.json'.format(path))).read()

@@ -8,6 +8,7 @@ import dosa
 endpoint = 'https://api.digitalocean.com/%s' % dosa.API_VERSION
 api_sample_data = os.path.join(os.path.dirname(__file__), 'api_sample_data')
 
+
 class TestDosaClientDomainActions(TestCase):
     @classmethod
     def setUp(self):
@@ -25,7 +26,8 @@ class TestDosaClientDomainActions(TestCase):
     @patch('dosa.requests.get')
     def test_dosa_domain_list(self, mock_get):
         mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = json.loads(self._get_sample_data('domains'))
+        mock_get.return_value.json.return_value = json.loads(
+            self._get_sample_data('domains'))
         status, result = self.client.domains.list()
         self.assertEqual(1, len(result['domains']))
         self.assertTrue(mock_get.called)
@@ -53,7 +55,8 @@ class TestDosaClientDomainActions(TestCase):
             }
         }
         mock_post.return_value.json.return_value = mocked_return
-        status, result = self.client.domains.create(name='example.com', ip_address='1.2.3.4')
+        status, result = self.client.domains.create(
+            name='example.com', ip_address='1.2.3.4')
         self.assertTrue(mock_post.called)
 
         expected_headers = {
@@ -91,4 +94,5 @@ class TestDosaClientDomainActions(TestCase):
         self.assertDictEqual(data['params'], expected_params)
 
     def _get_sample_data(self, path=''):
-        return open(os.path.join(api_sample_data, '{}.json'.format(path))).read()
+        return open(os.path.join(api_sample_data,
+                                 '{}.json'.format(path))).read()

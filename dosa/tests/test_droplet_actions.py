@@ -8,6 +8,7 @@ import dosa
 endpoint = 'https://api.digitalocean.com/%s' % dosa.API_VERSION
 api_sample_data = os.path.join(os.path.dirname(__file__), 'api_sample_data')
 
+
 class TestDosaClientDropletActions(TestCase):
     @classmethod
     def setUp(self):
@@ -25,7 +26,8 @@ class TestDosaClientDropletActions(TestCase):
     @patch('dosa.requests.get')
     def test_dosa_droplet_list(self, mock_get):
         mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = json.loads(self._get_sample_data('droplets'))
+        mock_get.return_value.json.return_value = json.loads(
+            self._get_sample_data('droplets'))
         status, result = self.client.droplets.list()
         self.assertEqual(1, len(result['droplets']))
         self.assertTrue(mock_get.called)
@@ -45,7 +47,8 @@ class TestDosaClientDropletActions(TestCase):
     @patch('dosa.requests.post')
     def test_dosa_droplet_create(self, mock_post):
         mock_post.return_value.status_code = 202
-        mock_post.return_value.json.return_value = json.loads(self._get_sample_data('droplet_create'))
+        mock_post.return_value.json.return_value = json.loads(
+            self._get_sample_data('droplet_create'))
         status, result = self.client.droplets.create(name='terminator',
                                                      region='nyc2',
                                                      size='512mb',
@@ -77,10 +80,12 @@ class TestDosaClientDropletActions(TestCase):
     @patch('dosa.requests.get')
     def test_dosa_droplet_by_id(self, mock_get):
         mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = json.loads(self._get_sample_data('droplet_by_id'))
+        mock_get.return_value.json.return_value = json.loads(
+            self._get_sample_data('droplet_by_id'))
         data_sample = json.loads(self._get_sample_data('droplet_by_id'))
         droplet_id = data_sample['droplet']['id']
-        droplet_ips = [ip['ip_address'] for ip in data_sample['droplet']['networks']['v4']]
+        droplet_ips = [ip['ip_address']
+                       for ip in data_sample['droplet']['networks']['v4']]
         droplet_status = data_sample['droplet']['status']
         droplet = self.client.Droplet(droplet_id)
         status, droplet_info = droplet.info()
@@ -123,4 +128,5 @@ class TestDosaClientDropletActions(TestCase):
         self.assertDictEqual(data['params'], expected_params)
 
     def _get_sample_data(self, path=''):
-        return open(os.path.join(api_sample_data, '{}.json'.format(path))).read()
+        return open(os.path.join(api_sample_data,
+                                 '{}.json'.format(path))).read()

@@ -38,7 +38,7 @@ class TestDosaClientFirewallActions(TestCase):
     def test_dosa_firewall_list(self, mock_get):
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = json.loads(
-                self._get_sample_data('firewalls'))
+            self._get_sample_data('firewalls'))
         status, result = self.client.firewalls.list()
         self.assertEqual(2, len(result['firewalls']))
         self.assertTrue(mock_get.called)
@@ -59,7 +59,7 @@ class TestDosaClientFirewallActions(TestCase):
     def test_dosa_firewall_search(self, mock_get):
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = json.loads(
-                self._get_sample_data('firewalls'))
+            self._get_sample_data('firewalls'))
 
         firewall = self.client.firewalls.get_firewall_by_name('webserver')
 
@@ -85,7 +85,7 @@ class TestDosaClientFirewallActions(TestCase):
     def test_dosa_firewall_create(self, mock_post):
         mock_post.return_value.status_code = 202
         mock_post.return_value.json.return_value = json.loads(
-                self._get_sample_data('firewall_create'))
+            self._get_sample_data('firewall_create'))
 
         # set firewall data
         params = {
@@ -93,16 +93,16 @@ class TestDosaClientFirewallActions(TestCase):
             'inbound_rules': [{'ports': '22',
                                'protocol': 'tcp',
                                'sources': {
-                                    'addresses': ['0.0.0.0/0', '::/0']}},
+                                   'addresses': ['0.0.0.0/0', '::/0']}},
                               {'ports': '80',
                                'protocol': 'tcp',
                                'sources': {
-                                    'addresses': ['0.0.0.0/0', '::/0']}}],
+                                   'addresses': ['0.0.0.0/0', '::/0']}}],
             'name': 'firewall',
             'outbound_rules': [{'destinations': {
-                                    'addresses': ['0.0.0.0/0', '::/0']},
-                                'ports': 'all',
-                                'protocol': 'tcp'}],
+                'addresses': ['0.0.0.0/0', '::/0']},
+                'ports': 'all',
+                'protocol': 'tcp'}],
             'tags': []}
 
         firewall = self.client.firewalls.create(**params)
@@ -140,7 +140,7 @@ class TestDosaClientFirewallActions(TestCase):
 
         url, data = mock_delete.call_args
         self.assertEqual(url[0], '{}/firewalls/{}'.format(
-                endpoint, firewall_id))
+            endpoint, firewall_id))
         self.assertDictEqual(data['headers'], expected_headers)
         self.assertDictEqual(data['params'], expected_params)
 
@@ -154,7 +154,7 @@ class TestDosaClientFirewallActions(TestCase):
         # prepare a response for a firewall object
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = json.loads(
-                self._get_sample_data('firewall'))
+            self._get_sample_data('firewall'))
 
         mock_post.return_value.status_code = 204
         # there's no response for adding droplet (No Content)
@@ -180,7 +180,7 @@ class TestDosaClientFirewallActions(TestCase):
         expected_params = {}
         url, data = mock_post.call_args
         self.assertEqual(url[0], '{}/firewalls/{}/droplets'.format(
-                endpoint, firewall_id))
+            endpoint, firewall_id))
         self.assertDictEqual(data['headers'], expected_headers)
         self.assertDictEqual(data['params'], expected_params)
 
@@ -260,7 +260,7 @@ class TestDosaClientFirewallActions(TestCase):
         expected_params = {}
         url, data = mock_delete.call_args
         self.assertEqual(url[0], '{}/firewalls/{}/droplets'.format(
-                endpoint, firewall_id))
+            endpoint, firewall_id))
         self.assertDictEqual(data['headers'], expected_headers)
         self.assertDictEqual(data['params'], expected_params)
 
@@ -277,7 +277,7 @@ class TestDosaClientFirewallActions(TestCase):
         # prepare a response for a firewall object
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = json.loads(
-                self._get_sample_data('firewall'))
+            self._get_sample_data('firewall'))
 
         mock_delete.return_value.status_code = 204
         # there's no response for adding droplet (No Content)

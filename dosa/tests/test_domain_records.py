@@ -8,6 +8,7 @@ import dosa
 endpoint = 'https://api.digitalocean.com/%s' % dosa.API_VERSION
 api_sample_data = os.path.join(os.path.dirname(__file__), 'api_sample_data')
 
+
 class TestDosaClientDomainRecordActions(TestCase):
     @classmethod
     def setUp(self):
@@ -25,7 +26,8 @@ class TestDosaClientDomainRecordActions(TestCase):
     @patch('dosa.requests.get')
     def test_get_domain_record(self, mock_get):
         mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = json.loads(self._get_sample_data('domain_record'))
+        mock_get.return_value.json.return_value = json.loads(
+            self._get_sample_data('domain_record'))
         domain_name = 'example.com'
         dr = self.client.DomainRecords(domain=domain_name)
         dr.list()
@@ -38,7 +40,8 @@ class TestDosaClientDomainRecordActions(TestCase):
         expected_params = {}
         expected_data = '{}'
         url, data = mock_get.call_args
-        self.assertEqual(url[0], '{}/domains/{}/records'.format(endpoint, domain_name))
+        self.assertEqual(
+            url[0], '{}/domains/{}/records'.format(endpoint, domain_name))
         self.assertDictEqual(data['headers'], expected_headers)
         self.assertDictEqual(data['params'], expected_params)
         self.assertEqual(data['data'], expected_data)
@@ -59,16 +62,20 @@ class TestDosaClientDomainRecordActions(TestCase):
         }
         expected_params = {}
         url, data = mock_post.call_args
-        self.assertEqual(url[0], '{}/domains/{}/records'.format(endpoint, domain_name))
+        self.assertEqual(
+            url[0], '{}/domains/{}/records'.format(endpoint, domain_name))
         self.assertDictEqual(data['headers'], expected_headers)
         self.assertDictEqual(data['params'], expected_params)
         data_dict = json.loads(data['data'])
-        self.assertEqual(data_dict['data'], mocked_return['domain_record']['data'])
+        self.assertEqual(
+            data_dict['data'],
+            mocked_return['domain_record']['data'])
 
     @patch('dosa.requests.put')
     def test_dosa_update_domain_record_by_id(self, mock_put):
         mock_put.return_value.status_code = 200
-        mock_put.return_value.json.return_value = json.loads(self._get_sample_data('domain_record'))
+        mock_put.return_value.json.return_value = json.loads(
+            self._get_sample_data('domain_record'))
         domain_name = 'example.com'
         domain_record = 28448433
         dr = self.client.DomainRecords(domain=domain_name)
@@ -83,11 +90,14 @@ class TestDosaClientDomainRecordActions(TestCase):
         expected_params = {}
         expected_data = '{"name": "www"}'
         url, data = mock_put.call_args
-        self.assertEqual(url[0], '{}/domains/{}/records/{}'.format(endpoint, domain_name, domain_record))
+        self.assertEqual(url[0],
+                         '{}/domains/{}/records/{}'.format(endpoint,
+                                                           domain_name,
+                                                           domain_record))
         self.assertDictEqual(data['headers'], expected_headers)
         self.assertDictEqual(data['params'], expected_params)
         self.assertEqual(data['data'], expected_data)
 
-
     def _get_sample_data(self, path=''):
-        return open(os.path.join(api_sample_data, '{}.json'.format(path))).read()
+        return open(os.path.join(api_sample_data,
+                                 '{}.json'.format(path))).read()

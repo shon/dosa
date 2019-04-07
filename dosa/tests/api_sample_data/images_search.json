@@ -1,24 +1,29 @@
 {
-  "image": {
-    "id": 6918990,
-    "name": "14.04 x64",
-    "distribution": "Ubuntu",
-    "slug": "ubuntu-14-04-x64",
-    "public": true,
-    "regions": [
-      "nyc1",
-      "ams1",
-      "sfo1",
-      "nyc2",
-      "ams2",
-      "sgp1",
-      "lon1",
-      "nyc3",
-      "ams3",
-      "nyc3"
-    ],
-    "created_at": "2014-10-17T20:24:33Z",
-    "min_disk_size": 20,
-    "size_gigabytes": 2.34
+  "images": [
+    {
+      "id": 6918990,
+      "name": "14.04 x64",
+      "distribution": "Ubuntu",
+      "slug": "ubuntu-14-04-x64",
+      "public": true,
+      "regions": [
+        "nyc1",
+        "ams1",
+        "sfo1",
+        "nyc2",
+        "ams2",
+        "sgp1",
+        "lon1",
+        "nyc3",
+        "ams3",
+        "nyc3"
+      ],
+      "created_at": "2014-10-17T20:24:33Z",
+      "min_disk_size": 20,
+      "size_gigabytes": 2.34
+    }
+  ],
+  "meta": {
+      "total": 1
   }
 }

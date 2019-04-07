@@ -68,6 +68,34 @@ Usage
     record.info()
     record.update(name='new.example.com')
 
+    # Firewalls
+    ## Create a firewall
+    params = {
+     'inbound_rules': [{'ports': '22',
+       'protocol': 'tcp',
+       'sources': {'addresses': ['0.0.0.0/0', '::/0']}},
+      {'ports': '80',
+       'protocol': 'tcp',
+       'sources': {'addresses': ['0.0.0.0/0', '::/0']}}],
+     'name': 'firewall',
+     'outbound_rules': [{'destinations': {'addresses': ['0.0.0.0/0', '::/0']},
+       'ports': 'all',
+       'protocol': 'tcp'}],
+     'tags': []}
+    firewall = client.firewalls.create(**params)
+
+    # search firewall by name
+    firewall = client.firewalls.get_firewall_by_name('firewall')
+
+    ## add a droplet to a firewall
+    firewall.add_droplet(new_droplet_id)
+
+    ## remove a droplet from a firewall
+    firewall.remove_droplet(new_droplet_id)
+
+    ## delete a firewall
+    client.firewalls.delete(id=firewall.id)
+
     # Extras
     # $ ls keys/
     # rsa_pub1.id  rsa_pub2.key  rsa_pub3.key

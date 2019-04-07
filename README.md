@@ -1,11 +1,11 @@
-Python wrapper for Digital Ocean [API
-V2](https://developers.digitalocean.com).
+Python wrapper for Digital Ocean [API V2](https://developers.digitalocean.com).
 
-[![Latest
-Version](https://badge.fury.io/py/dosa.svg)](http://badge.fury.io/py/dosa)
+[![Latest Version](https://badge.fury.io/py/dosa.svg)](http://badge.fury.io/py/dosa)
 
-[![Number of PyPI
-downloads](https://pypip.in/d/dosa/badge.png)](https://crate.io/packages/dosa/)
+[![Number of PyPI downloads](https://pypip.in/d/dosa/badge.png)](https://crate.io/packages/dosa/)
+
+[![Travis Build](https://img.shields.io/travis/shon/dosa.svg)](https://travis-ci.org/shon/dosa)
+
 
 Installation
 ============
@@ -86,7 +86,7 @@ params = {
 firewall = client.firewalls.create(**params)
 
 # search firewall by name
-firewall = client.firewalls.get_firewall_by_name('firewall')
+firewall = client.firewalls.get_by_name('firewall')
 
 ## add a droplet to a firewall
 firewall.add_droplet(new_droplet_id)

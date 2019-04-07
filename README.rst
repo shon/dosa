@@ -5,6 +5,8 @@ V2 <https://developers.digitalocean.com>`__.
 
 |Number of PyPI downloads|
 
+|Travis Build|
+
 Installation
 ------------
 
@@ -85,7 +87,7 @@ Usage
     firewall = client.firewalls.create(**params)
 
     # search firewall by name
-    firewall = client.firewalls.get_firewall_by_name('firewall')
+    firewall = client.firewalls.get_by_name('firewall')
 
     ## add a droplet to a firewall
     firewall.add_droplet(new_droplet_id)
@@ -131,3 +133,5 @@ Commons Attribution 2.0 via Wikimedia Commons|
    :target: https://crate.io/packages/dosa/
 .. |"Paper Masala Dosa" by SteveR- - http://www.flickr.com/photos/git/3936135033/. Licensed under Creative Commons Attribution 2.0 via Wikimedia Commons| image:: http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Paper_Masala_Dosa.jpg/640px-Paper_Masala_Dosa.jpg
    :target: http://commons.wikimedia.org/wiki/File:Paper_Masala_Dosa.jpg#mediaviewer/File:Paper_Masala_Dosa.jpg
+.. |Travis Build| image:: https://img.shields.io/travis/shon/dosa.svg
+   :target: https://travis-ci.org/shon/dosa

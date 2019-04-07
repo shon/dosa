@@ -61,7 +61,7 @@ class TestDosaClientFirewallActions(TestCase):
         mock_get.return_value.json.return_value = json.loads(
             self._get_sample_data('firewalls'))
 
-        firewall = self.client.firewalls.get_firewall_by_name('webserver')
+        firewall = self.client.firewalls.get_by_name('webserver')
 
         # a firewall is an object
         self.assertIsInstance(firewall, dosa.Firewall)

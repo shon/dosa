@@ -252,7 +252,7 @@ class Firewalls(Collection):
         # now get a Firewall instance
         return Firewall(self.api_key, 'firewalls/{id}', id=firewall_id)
 
-    def get_firewall_by_name(self, name):
+    def get_by_name(self, name):
         """Return a Firewall object from a name"""
 
         # search for a firewall rule by name:

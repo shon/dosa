@@ -29,8 +29,11 @@ Usage
     # Droplets
     client.droplets.list()
     status, result = client.droplets.create(name='terminator', region='nyc2',\
-        size='512mb', image='ubuntu-14-04-x32', ssh_keys=[12345])
+        size='s-1vcpu-1gb', image='ubuntu-14-04-x32', ssh_keys=[12345])
     new_droplet_id = result['id']
+
+    # Get all available size configs
+    client.sizes
 
     # Droplet
     new_droplet = client.Droplet(new_droplet_id)

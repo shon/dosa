@@ -112,9 +112,9 @@ class Collection(APIObject):
         return self.send_req('GET', self.path, params=params)
 
     def all(self):
-        images = []
+        items = []
         resp = self.list()
-        images.extend(resp.result[self.name])
+        items.extend(resp.result[self.name])
         total = resp.result['meta']['total']
 
         # if total == len(images), math.ceil will be == 1
@@ -124,9 +124,9 @@ class Collection(APIObject):
         for i in range(1, more_no_reqs):
             # now I starts from 1. Getting next page
             resp = self.list(page=(i + 1))
-            images.extend(resp.result[self.name])
+            items.extend(resp.result[self.name])
 
-        return images
+        return items
 
     def create(self, **data):
         return self.send_req('POST', self.path, data)
@@ -150,6 +150,9 @@ class Droplets(Collection):
 
     def create(self, name, region, size, image, ssh_keys=None,
                backups=False, ipv6=False, private_networking=False):
+        sizes = Collection(self.api_key, 'sizes').list().result
+        sizes = [droplet_config['slug'] for droplet_config in sizes['sizes']]
+        assert size in sizes, 'Incorrect size value.'
         data = dict(
             name=name,
             region=region,
@@ -275,6 +278,7 @@ class Client(object):
         self.keys = Collection(self.api_key, 'ssh_keys', 'account/keys')
         self.domains = Collection(self.api_key, 'domains')
         self.firewalls = Firewalls(self.api_key, 'firewalls')
+        self.sizes = Collection(self.api_key, 'sizes').list().result
 
     def Domain(self, domain):
         return Resource(self.api_key, 'domains/{domain}', domain=domain)
@@ -282,7 +286,6 @@ class Client(object):
     def DomainRecords(self, domain, record_id=None):
         return DomainRecords(
             self.api_key, 'domains/{domain}/records', domain=domain)
-
     def Droplet(self, id):
         return Droplet(self.api_key, 'droplets/{id}', id=id)
 

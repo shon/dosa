@@ -117,8 +117,8 @@ class Collection(APIObject):
         items.extend(resp.result[self.name])
         total = resp.result['meta']['total']
 
-        # if total == len(images), math.ceil will be == 1
-        more_no_reqs = math.ceil(total / len(images))
+        # if total == len(items), math.ceil will be == 1
+        more_no_reqs = math.ceil(total / len(items))
 
         # This seems easier to understand to me
         for i in range(1, more_no_reqs):

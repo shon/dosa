@@ -286,6 +286,7 @@ class Client(object):
     def DomainRecords(self, domain, record_id=None):
         return DomainRecords(
             self.api_key, 'domains/{domain}/records', domain=domain)
+
     def Droplet(self, id):
         return Droplet(self.api_key, 'droplets/{id}', id=id)
 

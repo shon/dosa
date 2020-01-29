@@ -11,7 +11,11 @@ api_sample_data = os.path.join(os.path.dirname(__file__), 'api_sample_data')
 
 class TestDosaClientDomainActions(TestCase):
     @classmethod
-    def setUp(self):
+    @patch('dosa.requests.get')
+    def setUp(self, mock_get):
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = json.loads(
+            self._get_sample_data(self, 'sizes'))
         self.api_key = 'my_fake_api_key'
         self.client = dosa.Client(self.api_key)
 
@@ -19,7 +23,11 @@ class TestDosaClientDomainActions(TestCase):
     def tearDown(self):
         pass
 
-    def test_dosa_client_created(self):
+    @patch('dosa.requests.get')
+    def test_dosa_client_created(self, mock_get):
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = json.loads(
+            self._get_sample_data('sizes'))
         client = dosa.Client(self.api_key)
         self.assertIsInstance(client, dosa.Client)
 

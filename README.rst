@@ -33,7 +33,7 @@ Usage
     new_droplet_id = result['id']
 
     # Get all available size configs
-    client.sizes
+    client.sizes.list()
 
     # Droplet
     new_droplet = client.Droplet(new_droplet_id)

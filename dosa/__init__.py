@@ -148,9 +148,9 @@ class Droplet(Resource):
 
 class Droplets(Collection):
 
-    def create(self, name, region, size, image, valid_sizes, ssh_keys=None,
+    def create(self, name, region, size, image, ssh_keys=None,
                backups=False, ipv6=False, private_networking=False):
-        valid_sizes = valid_sizes.list().result['sizes']
+        valid_sizes = self.sizes.list().result['sizes']
         valid_size_slugs = [droplet_config['slug'] for droplet_config in valid_sizes]
         assert size in valid_size_slugs, 'Invalid droplet size: %s' % size
         data = dict(
@@ -274,7 +274,7 @@ class Client(object):
     def __init__(self, api_key):
         self.api_key = api_key
         sizes = Collection(self.api_key, 'sizes')
-        self.droplets = Droplets(self.api_key, 'droplets', valid_sizes=sizes)
+        self.droplets = Droplets(self.api_key, 'droplets', sizes=sizes)
         self.images = Images(self.api_key, 'images')
         self.keys = Collection(self.api_key, 'ssh_keys', 'account/keys')
         self.domains = Collection(self.api_key, 'domains')

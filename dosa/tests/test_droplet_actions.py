@@ -65,7 +65,6 @@ class TestDosaClientDropletActions(TestCase):
                                                      region='nyc2',
                                                      size='512mb',
                                                      image='ubuntu-14-04-x32',
-                                                     valid_sizes=self.client.sizes,
                                                      ssh_keys=[12345])
         self.assertTrue(mock_get.called)
         self.assertTrue(mock_post.called)

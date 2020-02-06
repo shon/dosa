@@ -57,7 +57,7 @@ class TestDosaClientDropletActions(TestCase):
     def test_dosa_droplet_create(self, mock_post, mock_get):
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = json.loads(
-            self._get_sample_data('sizes')) 
+            self._get_sample_data('sizes'))
         mock_post.return_value.status_code = 202
         mock_post.return_value.json.return_value = json.loads(
             self._get_sample_data('droplet_create'))

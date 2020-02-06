@@ -151,7 +151,8 @@ class Droplets(Collection):
     def create(self, name, region, size, image, ssh_keys=None,
                backups=False, ipv6=False, private_networking=False):
         valid_sizes = self.sizes.list().result['sizes']
-        valid_size_slugs = [droplet_config['slug'] for droplet_config in valid_sizes]
+        valid_size_slugs = [
+            droplet_config['slug'] for droplet_config in valid_sizes]
         assert size in valid_size_slugs, 'Invalid droplet size: %s' % size
         data = dict(
             name=name,

@@ -39,6 +39,10 @@ new_droplet.status()
 new_droplet.ip_addresses()
 client.droplets.delete(new_droplet_id)
 
+
+# Get all available size configs
+client.sizes.list()
+
 # SSH Keys
 pub_key = open('~/.ssh/id_rsa.pub').read()
 client.keys.create(name='RSA key', public_key=pub_key)

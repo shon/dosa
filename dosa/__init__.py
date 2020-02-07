@@ -10,7 +10,7 @@ from collections import namedtuple
 import requests
 
 API_VERSION = 'v2'
-__version__ = '0.10'
+__version__ = '0.5.0'
 DEBUG = False
 
 Return = namedtuple('Return', ('status_code', 'result'))

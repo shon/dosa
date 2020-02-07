@@ -11,7 +11,11 @@ api_sample_data = os.path.join(os.path.dirname(__file__), 'api_sample_data')
 
 class TestDosaClientDropletActions(TestCase):
     @classmethod
-    def setUp(self):
+    @patch('dosa.requests.get')
+    def setUp(self, mock_get):
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = json.loads(
+            self._get_sample_data(self, 'sizes'))
         self.api_key = 'my_fake_api_key'
         self.client = dosa.Client(self.api_key)
 
@@ -19,7 +23,11 @@ class TestDosaClientDropletActions(TestCase):
     def tearDown(self):
         pass
 
-    def test_dosa_client_created(self):
+    @patch('dosa.requests.get')
+    def test_dosa_client_created(self, mock_get):
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = json.loads(
+            self._get_sample_data('sizes'))
         client = dosa.Client(self.api_key)
         self.assertIsInstance(client, dosa.Client)
 
@@ -44,8 +52,12 @@ class TestDosaClientDropletActions(TestCase):
         self.assertDictEqual(data['params'], expected_params)
         self.assertEqual(data['data'], expected_data)
 
+    @patch('dosa.requests.get')
     @patch('dosa.requests.post')
-    def test_dosa_droplet_create(self, mock_post):
+    def test_dosa_droplet_create(self, mock_post, mock_get):
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = json.loads(
+            self._get_sample_data('sizes'))
         mock_post.return_value.status_code = 202
         mock_post.return_value.json.return_value = json.loads(
             self._get_sample_data('droplet_create'))
@@ -54,27 +66,34 @@ class TestDosaClientDropletActions(TestCase):
                                                      size='512mb',
                                                      image='ubuntu-14-04-x32',
                                                      ssh_keys=[12345])
+        self.assertTrue(mock_get.called)
         self.assertTrue(mock_post.called)
-
         expected_headers = {
             'Content-Type': 'application/json',
             'authorization': 'Bearer {}'.format(self.api_key)
         }
         expected_params = {}
-        expected_data = {
+        get_expected_data = {}
+        post_expected_data = {
             'name': 'terminator',
             'region': 'nyc2',
             'size': '512mb',
             'image': 'ubuntu-14-04-x32',
             'ssh_keys': [12345]
         }
+        url, data = mock_get.call_args
+        self.assertEqual(url[0], '{}/sizes'.format(endpoint))
+        self.assertDictEqual(data['headers'], expected_headers)
+        self.assertDictEqual(data['params'], expected_params)
+        self.assertDictEqual(json.loads(data['data']), get_expected_data)
+
         url, data = mock_post.call_args
         self.assertEqual(url[0], '{}/droplets'.format(endpoint))
         self.assertDictEqual(data['headers'], expected_headers)
         self.assertDictEqual(data['params'], expected_params)
         received_data = json.loads(data['data'])
         # assert that expected data was returned in sample data
-        for key, value in expected_data.items():
+        for key, value in post_expected_data.items():
             self.assertEqual(received_data[key], value)
 
     @patch('dosa.requests.get')

@@ -112,21 +112,21 @@ class Collection(APIObject):
         return self.send_req('GET', self.path, params=params)
 
     def all(self):
-        images = []
+        items = []
         resp = self.list()
-        images.extend(resp.result[self.name])
+        items.extend(resp.result[self.name])
         total = resp.result['meta']['total']
 
-        # if total == len(images), math.ceil will be == 1
-        more_no_reqs = math.ceil(total / len(images))
+        # if total == len(items), math.ceil will be == 1
+        more_no_reqs = math.ceil(total / len(items))
 
         # This seems easier to understand to me
         for i in range(1, more_no_reqs):
             # now I starts from 1. Getting next page
             resp = self.list(page=(i + 1))
-            images.extend(resp.result[self.name])
+            items.extend(resp.result[self.name])
 
-        return images
+        return items
 
     def create(self, **data):
         return self.send_req('POST', self.path, data)
@@ -150,6 +150,10 @@ class Droplets(Collection):
 
     def create(self, name, region, size, image, ssh_keys=None,
                backups=False, ipv6=False, private_networking=False):
+        valid_sizes = self.sizes.list().result['sizes']
+        valid_size_slugs = [
+            droplet_config['slug'] for droplet_config in valid_sizes]
+        assert size in valid_size_slugs, 'Invalid droplet size: %s' % size
         data = dict(
             name=name,
             region=region,
@@ -270,11 +274,13 @@ class Client(object):
 
     def __init__(self, api_key):
         self.api_key = api_key
-        self.droplets = Droplets(self.api_key, 'droplets')
+        sizes = Collection(self.api_key, 'sizes')
+        self.droplets = Droplets(self.api_key, 'droplets', sizes=sizes)
         self.images = Images(self.api_key, 'images')
         self.keys = Collection(self.api_key, 'ssh_keys', 'account/keys')
         self.domains = Collection(self.api_key, 'domains')
         self.firewalls = Firewalls(self.api_key, 'firewalls')
+        self.sizes = sizes
 
     def Domain(self, domain):
         return Resource(self.api_key, 'domains/{domain}', domain=domain)
